@@ -284,4 +284,17 @@ contract L1BossBridgeTest is Test {
         assertEq(token.balanceOf(address(vault)), depositAmount);
         vm.stopPrank();
     }
+
+    // The Vault approve to the bridge
+    // user can mint unlimited tokens
+    function testCanTransferFromVaultToVault() public {
+        address attacker = makeAddr("attacker");
+        uint256 vaultBalance = 500 ether;
+        deal(address(token), address(vault), vaultBalance);
+
+        vm.expectEmit(address(tokenBridge));
+        emit Deposit(address(vault), attacker, vaultBalance);
+
+        tokenBridge.depositTokensToL2(address(vault), attacker, vaultBalance);
+    }
 }

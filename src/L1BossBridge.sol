@@ -63,6 +63,7 @@ contract L1BossBridge is Ownable, Pausable, ReentrancyGuard {
         // @audit  from != msg.sener  
         token.safeTransferFrom(from, address(vault), amount);
 
+        // @audit follow CEI  , 
         // Our off-chain service picks up this event and mints the corresponding tokens on L2
         emit Deposit(from, l2Recipient, amount);
     }
